@@ -13,26 +13,37 @@ module.exports = async function handler(req, res) {
       const hash = hashPassword(password);
       const sql = getDb();
 
+      let n = (nombre || '').trim();
+      let a = (apellido || '').trim();
+      // El administrador no tiene apellido: se ignora lo que venga en ese campo
+      // (evita fallos por autocompletado del navegador).
+      if (n.toLowerCase() === 'administrador') a = '';
+
       // Buscar en la tabla teachers (se crea con el usuario administrador si no existe)
       let found = false;
+      let dbError = null;
       try {
         await ensureTeachers(sql);
         const rows = await sql`
           SELECT id FROM teachers
-          WHERE LOWER(nombre) = LOWER(${(nombre || '').trim()})
-          AND LOWER(apellido) = LOWER(${(apellido || '').trim()})
+          WHERE LOWER(nombre) = LOWER(${n})
+          AND LOWER(apellido) = LOWER(${a})
           AND password_hash = ${hash}
         `;
         found = rows.length > 0;
       } catch (e) {
-        // Error de BD — caer al fallback de variable de entorno
-        console.error(e);
+        console.error('Error de BD en login docente:', e);
+        dbError = e;
       }
 
       // Fallback a TEACHER_PASSWORD_HASH (sin nombre/apellido)
       if (!found && hash === process.env.TEACHER_PASSWORD_HASH) {
         found = true;
       }
+
+      // Si la BD falló, avisarlo en vez de decir "credenciales incorrectas"
+      if (!found && dbError)
+        return res.status(500).json({ error: 'Error de base de datos: ' + (dbError.message || dbError) });
 
       if (!found) return res.status(401).json({ error: 'Credenciales incorrectas' });
 
@@ -50,7 +61,7 @@ module.exports = async function handler(req, res) {
       const { nombre, apellido, newPassword } = req.body;
       // El apellido es opcional (el usuario "administrador" no tiene apellido)
       const n = (nombre || '').trim();
-      const a = (apellido || '').trim();
+      const a = n.toLowerCase() === 'administrador' ? '' : (apellido || '').trim();
       if (!n || !newPassword)
         return res.status(400).json({ error: 'Datos incompletos' });
 
