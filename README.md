@@ -74,6 +74,16 @@ La autenticación docente funciona en dos capas:
 
 2. **Variable de entorno (fallback de emergencia):** Si no hay cuenta en la BD o se olvida la contraseña, se puede ingresar dejando nombre y apellido vacíos y usando el hash de `TEACHER_PASSWORD_HASH`. Sirve para recuperar el acceso y configurar una nueva cuenta en BD.
 
+### Usuario administrador por defecto
+
+El sistema trae una cuenta con permisos totales (rol docente) que se crea sola en la tabla `teachers` la primera vez que se abre el login docente (también la inserta `db/schema.sql`):
+
+| Nombre | Apellido | Contraseña |
+|---|---|---|
+| `administrador` | *(dejar vacío)* | `primera` |
+
+Se recomienda cambiarle la contraseña apenas se despliegue: panel docente → Temas → Cuenta docente, con nombre `administrador`, apellido vacío y la nueva contraseña. La siembra automática nunca sobrescribe una contraseña ya cambiada.
+
 ### Generar el hash para TEACHER_PASSWORD_HASH
 
 ```powershell
@@ -121,12 +131,17 @@ CREATE TABLE IF NOT EXISTS quiz_progress (
 CREATE TABLE IF NOT EXISTS teachers (
   id            SERIAL PRIMARY KEY,
   nombre        TEXT NOT NULL,
-  apellido      TEXT NOT NULL,
+  apellido      TEXT NOT NULL DEFAULT '',
   password_hash TEXT NOT NULL
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS teachers_nombre_apellido_idx
 ON teachers (LOWER(nombre), LOWER(apellido));
+
+-- Usuario administrador por defecto (administrador / primera)
+INSERT INTO teachers (nombre, apellido, password_hash)
+VALUES ('administrador', '', '549d08b2f9671652890408d889fd7d6a6c5601808f63d20122b6461f2a8af88e')
+ON CONFLICT DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS config (
   key   VARCHAR(50) PRIMARY KEY,
@@ -154,7 +169,7 @@ ON CONFLICT (key) DO NOTHING;
 ### Para la docente
 
 1. Hacer clic en **"Acceso docente"** (enlace discreto al pie del formulario de login de estudiante), o hacer **triple clic** en el ícono ☕ de la barra lateral
-2. Ingresar nombre, apellido y contraseña docente (si aún no se configuró cuenta en BD, dejar nombre y apellido vacíos y usar la contraseña de `TEACHER_PASSWORD_HASH`)
+2. Ingresar nombre, apellido y contraseña docente — o `administrador`, apellido vacío y `primera` (si aún no se configuró cuenta en BD, dejar nombre y apellido vacíos y usar la contraseña de `TEACHER_PASSWORD_HASH`)
 3. El panel tiene tres pestañas:
    - **Temas:** habilitar/deshabilitar temas para el grupo; configurar cuenta docente; descargar PDF con todos los ejercicios
    - **Estudiantes:** crear cuentas, resetear contraseñas, eliminar estudiantes

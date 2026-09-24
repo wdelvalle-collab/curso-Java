@@ -2489,8 +2489,8 @@ async function saveTeacherAccount() {
   const apellido = document.getElementById('tp-teacher-apellido').value.trim();
   const pw = document.getElementById('tp-teacher-pw').value;
   const msg = document.getElementById('tp-teacher-msg');
-  if (!nombre || !apellido || !pw) {
-    msg.style.display = 'block'; msg.style.color = 'var(--danger)'; msg.textContent = 'Completar todos los campos.'; return;
+  if (!nombre || !pw) {
+    msg.style.display = 'block'; msg.style.color = 'var(--danger)'; msg.textContent = 'Completar nombre y contraseña.'; return;
   }
   try {
     const res = await fetch('/api/auth/teacher', {

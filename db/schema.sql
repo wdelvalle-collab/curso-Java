@@ -12,6 +12,23 @@ CREATE TABLE IF NOT EXISTS students (
   UNIQUE(nombre, apellido)
 );
 
+-- Cuentas docentes / administración (rol con permisos totales)
+CREATE TABLE IF NOT EXISTS teachers (
+  id            SERIAL PRIMARY KEY,
+  nombre        TEXT NOT NULL,
+  apellido      TEXT NOT NULL DEFAULT '',
+  password_hash TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS teachers_nombre_apellido_idx
+ON teachers (LOWER(nombre), LOWER(apellido));
+
+-- Usuario administrador por defecto: administrador / primera
+-- (password_hash = SHA-256 de 'primera'). No pisa la contraseña si ya existe.
+INSERT INTO teachers (nombre, apellido, password_hash)
+VALUES ('administrador', '', '549d08b2f9671652890408d889fd7d6a6c5601808f63d20122b6461f2a8af88e')
+ON CONFLICT DO NOTHING;
+
 -- Progreso por lección
 CREATE TABLE IF NOT EXISTS lesson_progress (
   student_id   INT REFERENCES students(id) ON DELETE CASCADE,
