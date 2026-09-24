@@ -97,18 +97,6 @@ $hash = $sha256.ComputeHash($bytes)
 
 ---
 
-## Deploy en Netlify
-
-El backend está escrito como funciones de Vercel (`api/`), pero el repo también funciona en Netlify:
-
-- `netlify/functions/api.js` es una única función que recibe todas las llamadas a `/api/*` y las deriva a los handlers de `api/`.
-- `netlify.toml` redirige `/api/*` a esa función y publica solo el frontend (`index.html`, CSS y JS copiados a `public/` en el build), para no exponer `api/_lib/` ni `db/`.
-
-En Netlify → Site configuration → Environment variables hay que cargar las mismas variables: `DATABASE_URL`, `JWT_SECRET` y (opcional) `TEACHER_PASSWORD_HASH`. En Build settings no hace falta tocar nada: el comando y la carpeta de publicación salen de `netlify.toml`.
-
-
----
-
 ## Base de datos
 
 Ejecutar `db/schema.sql` en la consola SQL de Neon:
