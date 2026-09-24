@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ─── Tema (tokens) ────────────────────────────────────────────────────────
+   Oscuro = valores por defecto (:root). Claro = override bajo [data-theme="light"].
+   El switch de la barra lateral escribe data-theme en <html> y lo persiste en
+   localStorage; sin elección explícita, el sitio queda en oscuro (como siempre). */
+:root {
+  --bg: #0f1117; --bg-sunken: #0a0f1a; --surface: #161b27; --surface-2: #1a1f2e;
+  --border: #1e2535; --border-2: #2d3748;
+  --text: #e2e8f0; --text-muted: #94a3b8; --text-faint: #64748b; --text-faintest: #4a5568;
+  --accent: #4f6ef7; --accent-strong: #3d5ce8; --accent-soft: #818cf8;
+  --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+  --quiz-correct-bg: #14532d; --quiz-correct-border: #22c55e; --quiz-correct-text: #86efac; --quiz-correct-fb-bg: #14532d33; --quiz-correct-fb-border: #22c55e55;
+  --quiz-wrong-bg: #450a0a; --quiz-wrong-border: #ef4444; --quiz-wrong-text: #fca5a5; --quiz-wrong-fb-bg: #450a0a33; --quiz-wrong-fb-border: #ef444455;
+  --option-bg: #1a1f2e; --option-text: #cbd5e1; --option-border: #2d3748;
+  --toggle-off-bg: #2d3748; --toggle-knob: #fff;
+  --scrollbar-thumb: #2d3748;
+  --tint-success-bg: rgba(34,197,94,.15); --tint-success-border: rgba(34,197,94,.4);
+  --tint-danger-bg: rgba(239,68,68,.15); --tint-danger-border: rgba(239,68,68,.4);
+  --tint-warning-bg: rgba(234,179,8,.15);
+}
+[data-theme="light"] {
+  --bg: #f6f7fb; --bg-sunken: #eef0f7; --surface: #ffffff; --surface-2: #eef1f7;
+  --border: #e4e7f0; --border-2: #d7dbe7;
+  --text: #1e293b; --text-muted: #64748b; --text-faint: #8794a8; --text-faintest: #9aa4b6;
+  --accent: #4338ca; --accent-strong: #372aa8; --accent-soft: #4f46e5;
+  --success: #16a34a; --warning: #d97706; --danger: #dc2626;
+  --quiz-correct-bg: #ecfdf5; --quiz-correct-border: #6ee7b7; --quiz-correct-text: #065f46; --quiz-correct-fb-bg: #ecfdf5; --quiz-correct-fb-border: #6ee7b7;
+  --quiz-wrong-bg: #fef2f2; --quiz-wrong-border: #fca5a5; --quiz-wrong-text: #991b1b; --quiz-wrong-fb-bg: #fef2f2; --quiz-wrong-fb-border: #fca5a5;
+  --option-bg: #f8f9fc; --option-text: #334155; --option-border: #dde1ec;
+  --toggle-off-bg: #d7dbe7; --toggle-knob: #fff;
+  --scrollbar-thumb: #c7cce0;
+  --tint-success-bg: rgba(22,163,74,.10); --tint-success-border: rgba(22,163,74,.35);
+  --tint-danger-bg: rgba(220,38,38,.08); --tint-danger-border: rgba(220,38,38,.3);
+  --tint-warning-bg: rgba(217,119,6,.12);
+}
+
+/* ── Overrides de color para el contenido de las 62 lecciones ──
+   Ese HTML usa clases de Tailwind fijas (pensadas para fondo oscuro); en vez
+   de reescribir las 62 lecciones, se sobreescribe el color de esas mismas
+   clases cuando el tema es claro. */
+[data-theme="light"] .text-slate-100 { color: #1e293b; }
+[data-theme="light"] .text-slate-300 { color: #334155; }
+[data-theme="light"] .text-slate-400 { color: #64748b; }
+[data-theme="light"] .text-slate-500 { color: #8794a8; }
+[data-theme="light"] .text-purple-400 { color: #7c3aed; }
+[data-theme="light"] .text-green-300 { color: #15803d; }
+[data-theme="light"] .text-green-400 { color: #16a34a; }
+[data-theme="light"] .text-blue-300 { color: #1d4ed8; }
+[data-theme="light"] .text-orange-300 { color: #b45309; }
+[data-theme="light"] .text-yellow-300 { color: #a16207; }
+[data-theme="light"] .text-indigo-200 { color: #3730a3; }
+[data-theme="light"] .text-indigo-300 { color: #4338ca; }
+[data-theme="light"] .text-indigo-400 { color: #4f46e5; }
+[data-theme="light"] .text-emerald-100 { color: #065f46; }
+[data-theme="light"] .text-emerald-200 { color: #047857; }
+[data-theme="light"] .text-emerald-300\/70 { color: #0d9488b3; }
+[data-theme="light"] .text-emerald-400 { color: #059669; }
+[data-theme="light"] .text-amber-200 { color: #92400e; }
+[data-theme="light"] .bg-slate-700\/40 { background-color: #eef1f7; }
+[data-theme="light"] .bg-slate-800\/60 { background-color: #eef1f7; }
+[data-theme="light"] .bg-slate-900 { background-color: #eef1f7; }
+[data-theme="light"] .bg-indigo-900\/30 { background-color: #eef2ff; }
+[data-theme="light"] .border-indigo-700\/40 { border-color: #c7d2fe; }
+[data-theme="light"] .bg-emerald-900\/30 { background-color: #ecfdf5; }
+[data-theme="light"] .border-emerald-700\/40 { border-color: #a7f3d0; }
+[data-theme="light"] .bg-amber-900\/30 { background-color: #fffbeb; }
+[data-theme="light"] .border-amber-700\/40 { border-color: #fde68a; }
+[data-theme="light"] .bg-indigo-600\/30 { background-color: #e0e7ff; }
+[data-theme="light"] .border-indigo-500\/40 { border-color: #a5b4fc; }
+[data-theme="light"] .border-slate-800 { border-color: var(--border); }
+
+* { box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; height: 100vh; overflow: hidden; transition: background .15s, color .15s; }
+code, pre, textarea, .mono { font-family: 'JetBrains Mono', monospace; }
+code { margin: 0 0.15em; }
+
+/* Sidebar */
+#sidebar { width: 260px; min-width: 260px; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+.lesson-item { padding: 10px 16px; cursor: pointer; border-left: 3px solid transparent; transition: all .15s; display: flex; align-items: center; gap: 10px; }
+.lesson-item:hover { background: var(--border); border-left-color: var(--accent); }
+.lesson-item.active { background: color-mix(in srgb, var(--accent) 14%, var(--surface)); border-left-color: var(--accent); }
+.lesson-num { width: 24px; height: 24px; border-radius: 50%; background: var(--border-2); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lesson-item.active .lesson-num { background: var(--accent); color: #fff; }
+
+.quiz-item { padding: 8px 16px 8px 28px; cursor: pointer; border-left: 3px solid transparent; transition: all .15s; display: flex; align-items: center; gap: 10px; }
+.quiz-item:hover { background: color-mix(in srgb, var(--success) 14%, var(--surface)); border-left-color: var(--success); }
+.quiz-item.done { border-left-color: var(--success); }
+.quiz-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--quiz-correct-bg); font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* Accordion topic header */
+.topic-header { padding: 10px 12px 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; transition: background .15s; border-top: 1px solid var(--border); }
+.topic-header:first-child { border-top: none; }
+.topic-header:hover { background: var(--surface-2); }
+.topic-arrow { font-size: 10px; color: var(--text-faintest); transition: transform .2s; flex-shrink: 0; margin-right: 8px; }
+.topic-arrow.open { transform: rotate(90deg); color: var(--accent-soft); }
+.topic-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent-soft); flex: 1; }
+.topic-header.disabled .topic-label { color: var(--text-faintest); }
+.topic-header.disabled .topic-arrow { color: var(--text-faintest); }
+
+/* Disabled lesson/quiz */
+.lesson-item.locked { opacity: .35; cursor: not-allowed; }
+.lesson-item.locked:hover { background: transparent; border-left-color: transparent; }
+.quiz-item.locked { opacity: .35; cursor: not-allowed; }
+.quiz-item.locked:hover { background: transparent; border-left-color: transparent; }
+
+/* Collapsible content */
+.topic-content { overflow: hidden; transition: max-height .25s ease; }
+.topic-content.closed { max-height: 0 !important; }
+
+/* Editor (el editor CodeMirror en sí usa el tema "dracula", siempre oscuro) */
+#editor-wrap { position: relative; }
+#code-editor { width: 100%; height: 100%; background: var(--surface-2); color: #a9b7d0; border: none; outline: none; resize: none; padding: 16px; font-size: 13px; line-height: 1.7; tab-size: 4; }
+.line-numbers { position: absolute; left: 0; top: 0; bottom: 0; width: 40px; background: var(--bg-sunken); color: var(--text-faintest); font-size: 13px; line-height: 1.7; padding: 16px 6px; text-align: right; user-select: none; pointer-events: none; }
+
+/* Buttons */
+.btn-run { background: var(--accent); color: #fff; border: none; cursor: pointer; padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: background .15s; }
+.btn-run:hover { background: var(--accent-strong); }
+.btn-hint { background: transparent; color: var(--text-muted); border: 1px solid var(--border-2); cursor: pointer; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; transition: all .15s; }
+.btn-hint:hover { border-color: var(--warning); color: var(--warning); }
+.btn-sol { background: transparent; color: var(--text-faint); border: 1px solid var(--border); cursor: pointer; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; transition: all .15s; }
+.btn-sol:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Divider drag handles (paneles redimensionables) */
+#drag-handle { height: 5px; background: var(--border); cursor: row-resize; flex-shrink: 0; transition: background .15s; }
+#drag-handle:hover, #drag-handle.dragging { background: var(--accent); }
+.resize-handle-v { width: 5px; background: var(--border); cursor: col-resize; flex-shrink: 0; transition: background .15s; }
+.resize-handle-v:hover, .resize-handle-v.dragging { background: var(--accent); }
+body.resizing-h, body.resizing-h * { cursor: col-resize !important; user-select: none !important; }
+body.resizing-v, body.resizing-v * { cursor: row-resize !important; user-select: none !important; }
+
+/* Switch de tema (claro/oscuro) */
+#theme-switch { position: relative; width: 38px; height: 22px; border-radius: 99px; background: var(--toggle-off-bg); border: none; cursor: pointer; flex-shrink: 0; padding: 0; transition: background .18s; }
+#theme-switch .knob { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--toggle-knob); transition: transform .18s ease; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+#theme-switch[aria-pressed="true"] { background: var(--accent); }
+#theme-switch[aria-pressed="true"] .knob { transform: translateX(16px); }
+
+@media (max-width: 700px) { #sidebar { display: none; } }
+@keyframes pop { from { transform:scale(.85);opacity:0; } to { transform:scale(1);opacity:1; } }

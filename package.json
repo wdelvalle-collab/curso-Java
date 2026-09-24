@@ -1,0 +1,9 @@
+{
+  "name": "java-journey",
+  "version": "2.0.0",
+  "description": "Plataforma interactiva para aprender Java — UTU",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
