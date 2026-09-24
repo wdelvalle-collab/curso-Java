@@ -1,0 +1,17 @@
+# ─── Deploy en Netlify ─────────────────────────────────────────────────────────
+# Solo se publican los archivos del frontend (carpeta public/, generada en el
+# build). Así no quedan expuestos api/_lib/ (respuestas de los quizzes) ni db/.
+[build]
+  command = "rm -rf public && mkdir public && cp index.html java-journey-oc.css java-journey-oc.js public/"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Todas las llamadas a /api/* van a la función adaptadora
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
